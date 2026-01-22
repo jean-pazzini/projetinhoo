@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Minha Lista de Tarefas (CRUD)</h1>
+
+    <div class="card p-4 mb-4 shadow-sm">
+        <form action="/adicionar" method="POST" class="d-flex gap-2">
+            <input type="text" name="conteudo" class="form-control" placeholder="Digite uma nova tarefa..." required>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+    </div>
+
+    <div class="card shadow-sm">
+        <ul class="list-group list-group-flush">
+            {% for tarefa in tarefas %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="{{ 'text-decoration-line-through text-muted' if tarefa.status == 'Concluído' else '' }}">
+                    {{ tarefa.conteudo }}
+                </span>
+                
+                <div>
+                    <a href="/atualizar/{{ tarefa.id }}" class="btn btn-sm {{ 'btn-success' if tarefa.status == 'Pendente' else 'btn-warning' }}">
+                        {{ 'Concluir' if tarefa.status == 'Pendente' else 'Reabrir' }}
+                    </a>
+                    <a href="/deletar/{{ tarefa.id }}" class="btn btn-sm btn-danger">X</a>
+                </div>
+            </li>
+            {% else %}
+            <li class="list-group-item text-center text-muted">Nenhuma tarefa encontrada.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
